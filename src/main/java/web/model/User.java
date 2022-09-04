@@ -5,6 +5,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Set;
 
@@ -14,27 +18,40 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Column
+    private Long id;
+
+    @Column(name = "name", nullable = false)
+    @NotBlank(message = "Name should not be empty")
+    @Size(min = 3, max = 200, message = "Minimum name length should be 3.")
     private String name;
-    @Column
+
+    @Column(name = "Last_name", nullable = false)
+    @NotBlank(message = "Last name should not be empty")
+    @Size(min = 3, max = 200, message = "Minimum last name length should be 3.")
     private String lastName;
-    @Column
+
+    @Column(name = "age", nullable = false)
+    @Min(5)
+    @Max(127)
     private byte age;
 
-    @Column
+    @Column(name = "login", nullable = false, unique = true)
+    @NotBlank(message = "Login should not be empty")
+    @Size(min = 3, max = 30, message = "Minimum login length should be 3.")
     private String login;
 
-    @Column
+    @Column(name = "password", nullable = false)
+    @NotBlank(message = "Password should not be empty")
+    @Size(min = 3, message = "Minimum password length should be 3.")
     private String password;
 
-
-    @Transient
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    public User(long id, String name, String lastName, byte age, String login, String password, Set<Role> roles) {
-        this.id = id;
+    public User(String name, String lastName, byte age, String login, String password, Set<Role> roles) {
         this.name = name;
         this.lastName = lastName;
         this.age = age;
@@ -47,11 +64,11 @@ public class User implements UserDetails {
 
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -85,6 +102,14 @@ public class User implements UserDetails {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override

@@ -18,7 +18,7 @@ spring:
     password: Callypso1703
 
   mvc:
-    hiddenmethod:
+    hidden-method:
       filter:
         enabled: true
 

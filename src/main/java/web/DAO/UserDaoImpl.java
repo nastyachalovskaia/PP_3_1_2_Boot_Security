@@ -40,7 +40,9 @@ public class UserDaoImpl implements UserDao {
         userToBeUpdated.setName(updatedUser.getName());
         userToBeUpdated.setLastName(updatedUser.getLastName());
         userToBeUpdated.setAge(updatedUser.getAge());
+        userToBeUpdated.setLogin(updatedUser.getLogin());
         userToBeUpdated.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        userToBeUpdated.setRoles(updatedUser.getRoles());
         entityManager.merge(userToBeUpdated);
     }
 
@@ -50,6 +52,10 @@ public class UserDaoImpl implements UserDao {
                 .executeUpdate();
     }
 
-    public User getUserByLogin(String login) {return entityManager.find(User.class, login); }
+    public User getUserByLogin(String login) {
+        return entityManager.createQuery("select u from User u where u.login=:login", User.class)
+                .setParameter("login", login)
+                .getSingleResult();
+    }
 
 }
