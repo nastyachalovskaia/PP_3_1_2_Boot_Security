@@ -36,8 +36,8 @@ public class Initialization {
         allAccess.add(user);
         userAccess.add(user);
 
-        User user1 = new User("Admin", "Adminov", (byte) 23, "admin", "admin", allAccess);
-        User user2 = new User("User", "Userov", (byte) 11, "user2", "user2", userAccess);
+        User user1 = new User("Admin", "Adminov", (byte) 23, "admin", "admin", allAccess, "admin@admin.com");
+        User user2 = new User("User", "Userov", (byte) 11, "user2", "user2", userAccess, "user@user.com");
 
         userService.saveUser(user1);
         userService.saveUser(user2);

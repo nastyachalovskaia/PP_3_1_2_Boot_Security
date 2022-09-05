@@ -79,7 +79,7 @@ public class UserController {
             model.addAttribute("allRoles", roleService.getAllRoles());
             return "edit";
         }
-        userService.updateUser(user.getId(), user);
+        userService.updateUser(user);
         return "redirect:/admin/users";
     }
 

@@ -17,6 +17,11 @@
   <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
   <br>
 
+  <label for="email">User Email: </label>
+  <input type="email" th:field="*{email}" id="email">
+  <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
+  <br>
+
   <label for="name">User Name: </label>
   <input type="text" th:field="*{name}" id="name">
   <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>

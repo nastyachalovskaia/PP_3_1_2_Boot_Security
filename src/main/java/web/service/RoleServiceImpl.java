@@ -19,7 +19,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<Role> getAllRoles() {
-        return roleDao.getAllRoles();
+        return roleDao.findAll();
     }
 
     @Override
@@ -30,6 +30,6 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     @Override
     public void saveRole(Role role) {
-        roleDao.saveRole(role);
+        roleDao.saveAndFlush(role);
     }
 }

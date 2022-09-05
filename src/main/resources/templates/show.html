@@ -10,12 +10,14 @@
         <th>Name</th>
         <th>Last Name</th>
         <th>Age</th>
+        <th>Email</th>
         <th>Roles</th>
     </tr>
     <tr>
         <td th:text="${user.getName()}">name</td>
         <td th:text="${user.getLastName()}">lastName</td>
         <td th:text="${user.getAge()}">age</td>
+        <td th:text="${user.getEmail()}">email</td>
         <td th:text="${user.getRoles()}">roles</td>
     </tr>
 </table>

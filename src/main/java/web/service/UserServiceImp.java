@@ -1,8 +1,7 @@
 package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.DAO.UserDao;
@@ -14,10 +13,13 @@ import java.util.List;
 public class UserServiceImp implements UserService {
 
     UserDao userDao;
+    PasswordEncoder passwordEncoder;
+
 
     @Autowired
-    public UserServiceImp(UserDao userDao) {
+    public UserServiceImp(UserDao userDao, PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -28,13 +30,14 @@ public class UserServiceImp implements UserService {
     @Transactional
     @Override
     public void saveUser(User user) {
-        userDao.saveUser(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userDao.saveAndFlush(user);
     }
 
     @Transactional
     @Override
     public void deleteUser(Long id) {
-        userDao.deleteUser(id);
+        userDao.deleteById(id);
     }
 
     @Override
@@ -44,8 +47,9 @@ public class UserServiceImp implements UserService {
 
     @Transactional
     @Override
-    public void updateUser(Long id, User updatedUser) {
-        userDao.updateUser(id, updatedUser);
+    public void updateUser(User updatedUser) {
+        updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        userDao.saveAndFlush(updatedUser);
     }
 
     @Override

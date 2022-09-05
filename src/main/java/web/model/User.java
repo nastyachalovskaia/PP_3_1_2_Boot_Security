@@ -3,14 +3,13 @@ package web.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
+import org.springframework.stereotype.Component;
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Collection;
 import java.util.Set;
+
+
 
 @Entity
 @Table(name = "users")
@@ -35,6 +34,11 @@ public class User implements UserDetails {
     @Max(127)
     private byte age;
 
+    @Column
+    @NotBlank(message = "Email should not be empty")
+    @Email
+    private String email;
+
     @Column(name = "login", nullable = false, unique = true)
     @NotBlank(message = "Login should not be empty")
     @Size(min = 3, max = 30, message = "Minimum login length should be 3.")
@@ -45,19 +49,20 @@ public class User implements UserDetails {
     @Size(min = 3, message = "Minimum password length should be 3.")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    public User(String name, String lastName, byte age, String login, String password, Set<Role> roles) {
+    public User(String name, String lastName, byte age, String login, String password, Set<Role> roles, String email) {
         this.name = name;
         this.lastName = lastName;
         this.age = age;
         this.login = login;
         this.password = password;
         this.roles = roles;
+        this.email = email;
     }
 
     public User() {
@@ -110,6 +115,14 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

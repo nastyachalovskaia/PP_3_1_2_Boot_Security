@@ -15,7 +15,7 @@ public interface UserService {
 
     User getUserById(Long id);
 
-    void updateUser(Long id, User updatedUser);
+    void updateUser(User updatedUser);
 
     User getUserByLogin(String login);
 
