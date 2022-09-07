@@ -4,21 +4,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import web.DAO.UserDao;
 import web.model.User;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
 public class UserServiceImp implements UserService {
 
-    UserDao userDao;
-    PasswordEncoder passwordEncoder;
+    private UserDao userDao;
+    private PasswordEncoder passwordEncoder;
+
+    private RoleService roleService;
 
 
     @Autowired
-    public UserServiceImp(UserDao userDao, PasswordEncoder passwordEncoder) {
+    public UserServiceImp(UserDao userDao, PasswordEncoder passwordEncoder, RoleService roleService) {
         this.userDao = userDao;
+        this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -56,5 +62,16 @@ public class UserServiceImp implements UserService {
     public User getUserByLogin(String login) {
         return userDao.getUserByLogin(login);
     }
+
+    @Override
+    public String getViewByParams(User user, BindingResult bindingResult, Model model, String str) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("allRoles", roleService.getAllRoles());
+            return str;
+        }
+        saveUser(user);
+        return "redirect:/admin/users";
+    }
+
 
 }

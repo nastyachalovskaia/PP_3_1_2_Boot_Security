@@ -1,8 +1,11 @@
 package web.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import web.model.User;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public interface UserService {
@@ -18,5 +21,7 @@ public interface UserService {
     void updateUser(User updatedUser);
 
     User getUserByLogin(String login);
+
+    String getViewByParams(User user, BindingResult bindingResult, Model model, String str);
 
 }

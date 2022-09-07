@@ -1,4 +1,4 @@
-package web;
+package web.configs;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,8 +13,8 @@ import java.util.Set;
 
 @Component
 public class Initialization {
-    UserService userService;
-    RoleService roleService;
+    private UserService userService;
+    private RoleService roleService;
 
     @Autowired
     public Initialization(UserService userService, RoleService roleService) {

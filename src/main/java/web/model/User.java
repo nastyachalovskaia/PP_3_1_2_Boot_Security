@@ -49,6 +49,7 @@ public class User implements UserDetails {
     @Size(min = 3, message = "Minimum password length should be 3.")
     private String password;
 
+    @NotEmpty
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

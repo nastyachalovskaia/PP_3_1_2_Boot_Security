@@ -41,6 +41,7 @@
     <ul class="checkbox-list" id="roles">
         <li th:each="role : ${allRoles}">
             <input type="checkbox" name="roles" th:value="${role.getId()} +':'+ ${role.getName()}" th:text="${role.getName()}" th:field="*{roles}"/>
+            <div style="color:red" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}">Roles Error</div>
         </li>
     </ul>
 
