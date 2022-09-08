@@ -58,7 +58,12 @@ public class UserController {
 
     @PostMapping("/admin/users")
     public String createUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
-        return userService.getViewByParams(user, bindingResult, model, "new");
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("allRoles", roleService.getAllRoles());
+            return "new";
+        }
+        userService.saveUser(user);
+        return "redirect:/admin/users";
     }
 
     @GetMapping("/admin/users/{id}/edit")
@@ -70,7 +75,12 @@ public class UserController {
 
     @PatchMapping("/admin/users/{id}/edit")
     public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
-        return userService.getViewByParams(user, bindingResult, model, "edit");
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("allRoles", roleService.getAllRoles());
+            return "edit";
+        }
+        userService.updateUser(user);
+        return "redirect:/admin/users";
     }
 
     @DeleteMapping("/admin/users/{id}")

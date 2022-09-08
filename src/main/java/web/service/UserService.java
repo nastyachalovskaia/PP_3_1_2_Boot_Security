@@ -22,6 +22,4 @@ public interface UserService {
 
     User getUserByLogin(String login);
 
-    String getViewByParams(User user, BindingResult bindingResult, Model model, String str);
-
 }

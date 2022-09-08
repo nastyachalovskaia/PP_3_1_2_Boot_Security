@@ -63,15 +63,4 @@ public class UserServiceImp implements UserService {
         return userDao.getUserByLogin(login);
     }
 
-    @Override
-    public String getViewByParams(User user, BindingResult bindingResult, Model model, String str) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("allRoles", roleService.getAllRoles());
-            return str;
-        }
-        saveUser(user);
-        return "redirect:/admin/users";
-    }
-
-
 }
